@@ -1,0 +1,24 @@
+import { test, expect } from "@playwright/test";
+import { DreamsTotalPage } from "../pages/DreamsTotalPage";
+
+test.describe("Dream Portal - Dreams Total", () => {
+  test("TC-011: Good Dreams count is 6", async ({ page }) => {
+    const totalPage = new DreamsTotalPage(page);
+
+    await totalPage.open();
+
+    const stats = await totalPage.getSummaryStats();
+
+    expect(stats.goodDreams).toBe(6);
+  });
+
+  test("TC-012: Bad Dreams count is 4", async ({ page }) => {
+    const totalPage = new DreamsTotalPage(page);
+
+    await totalPage.open();
+
+    const stats = await totalPage.getSummaryStats();
+
+    expect(stats.badDreams).toBe(4);
+  });
+});
