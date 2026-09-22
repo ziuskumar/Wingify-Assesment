@@ -21,4 +21,14 @@ test.describe("Dream Portal - Dreams Total", () => {
 
     expect(stats.badDreams).toBe(4);
   });
+
+  test("TC-013: Total Dreams count is 10", async ({ page }) => {
+    const totalPage = new DreamsTotalPage(page);
+
+    await totalPage.open();
+
+    const stats = await totalPage.getSummaryStats();
+
+    expect(stats.totalDreams).toBe(10);
+  });
 });
