@@ -61,4 +61,20 @@ test.describe("Dream Portal - Dreams Diary", () => {
 
     expect(recurringDreams).toHaveLength(2);
   });
+
+  test("TC-016: Flying over mountains is identified as recurring", async ({
+    page,
+  }) => {
+    const diaryPage = new DreamsDiaryPage(page);
+
+    await diaryPage.open();
+
+    const dreams = await diaryPage.getTableRowData();
+
+    const count = dreams.filter(
+      (dream) => dream.dreamName === "Flying over mountains",
+    ).length;
+
+    expect(count).toBeGreaterThan(1);
+  });
 });
