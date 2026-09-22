@@ -77,4 +77,17 @@ test.describe("Dream Portal - Dreams Diary", () => {
 
     expect(count).toBeGreaterThan(1);
   });
+  test("TC-017: Lost in maze is identified as recurring", async ({ page }) => {
+    const diaryPage = new DreamsDiaryPage(page);
+
+    await diaryPage.open();
+
+    const dreams = await diaryPage.getTableRowData();
+
+    const count = dreams.filter(
+      (dream) => dream.dreamName === "Lost in maze",
+    ).length;
+
+    expect(count).toBeGreaterThan(1);
+  });
 });
