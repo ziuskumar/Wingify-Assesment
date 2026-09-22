@@ -40,4 +40,32 @@ test.describe("Dream Portal - Home Page", () => {
 
     await expect(homePage.dreamButton).toBeVisible({ timeout: 5000 });
   });
+  test("TC-005: My Dreams opens the required pages", async ({
+    page,
+    context,
+  }) => {
+    const homePage = new HomePage(page);
+
+    await homePage.open();
+
+    const pagesBeforeClick = context.pages().length;
+
+    await homePage.clickMyDreams();
+
+    await page.waitForTimeout(1000);
+
+    const openedPages = context.pages().slice(pagesBeforeClick);
+
+    expect(openedPages.length).toBe(2);
+
+    const urls = openedPages.map((openedPage) => openedPage.url());
+
+    expect(urls).toContain(
+      "https://arjitnigam.github.io/myDreams/dreams-diary.html",
+    );
+
+    expect(urls).toContain(
+      "https://arjitnigam.github.io/myDreams/dreams-total.html",
+    );
+  });
 });
