@@ -92,4 +92,28 @@ test.describe("Dream Portal - Home Page", () => {
 
     expect(diaryPage).toBeDefined();
   });
+  test("TC-007: My Dreams opens the Dreams Total page", async ({
+    page,
+    context,
+  }) => {
+    const homePage = new HomePage(page);
+
+    await homePage.open();
+
+    const pagesBeforeClick = context.pages().length;
+
+    await homePage.clickMyDreams();
+
+    await page.waitForTimeout(1000);
+
+    const openedPages = context.pages().slice(pagesBeforeClick);
+
+    const totalPage = openedPages.find(
+      (openedPage) =>
+        openedPage.url() ===
+        "https://arjitnigam.github.io/myDreams/dreams-total.html",
+    );
+
+    expect(totalPage).toBeDefined();
+  });
 });
