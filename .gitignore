@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Playwright test artifacts
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+
+# Environment variables / secrets
+.env
+.env.*
+
+# Keep the example environment file
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
