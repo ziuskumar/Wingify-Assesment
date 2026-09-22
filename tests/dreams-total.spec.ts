@@ -31,4 +31,14 @@ test.describe("Dream Portal - Dreams Total", () => {
 
     expect(stats.totalDreams).toBe(10);
   });
+
+  test("TC-014: Recurring Dreams count is 2", async ({ page }) => {
+    const totalPage = new DreamsTotalPage(page);
+
+    await totalPage.open();
+
+    const stats = await totalPage.getSummaryStats();
+
+    expect(stats.recurringDreams).toBe(2);
+  });
 });
