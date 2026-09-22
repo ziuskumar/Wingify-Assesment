@@ -68,4 +68,28 @@ test.describe("Dream Portal - Home Page", () => {
       "https://arjitnigam.github.io/myDreams/dreams-total.html",
     );
   });
+  test("TC-006: My Dreams opens the Dreams Diary page", async ({
+    page,
+    context,
+  }) => {
+    const homePage = new HomePage(page);
+
+    await homePage.open();
+
+    const pagesBeforeClick = context.pages().length;
+
+    await homePage.clickMyDreams();
+
+    await page.waitForTimeout(1000);
+
+    const openedPages = context.pages().slice(pagesBeforeClick);
+
+    const diaryPage = openedPages.find(
+      (openedPage) =>
+        openedPage.url() ===
+        "https://arjitnigam.github.io/myDreams/dreams-diary.html",
+    );
+
+    expect(diaryPage).toBeDefined();
+  });
 });
