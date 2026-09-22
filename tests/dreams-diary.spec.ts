@@ -22,4 +22,19 @@ test.describe("Dream Portal - Dreams Diary", () => {
       expect(["Good", "Bad"]).toContain(dream.dreamType);
     }
   });
+  test("TC-010: Every dream entry has all required fields", async ({
+    page,
+  }) => {
+    const diaryPage = new DreamsDiaryPage(page);
+
+    await diaryPage.open();
+
+    const dreams = await diaryPage.getTableRowData();
+
+    for (const dream of dreams) {
+      expect(dream.dreamName).not.toBe("");
+      expect(dream.daysAgo).not.toBe("");
+      expect(dream.dreamType).not.toBe("");
+    }
+  });
 });
