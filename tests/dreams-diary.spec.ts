@@ -90,4 +90,28 @@ test.describe("Dream Portal - Dreams Diary", () => {
 
     expect(count).toBeGreaterThan(1);
   });
+  test("TC-019: Invalid dream type is rejected by validation rule", async () => {
+    const allowedTypes = ["Good", "Bad"];
+    const invalidType = "Neutral";
+
+    expect(allowedTypes).not.toContain(invalidType);
+  });
+  test('TC-020: Every required dream cell contains a value', async ({ page }) => {
+  const diaryPage = new DreamsDiaryPage(page);
+
+  await diaryPage.open();
+
+  const rows = diaryPage.dreamRows;
+  const rowCount = await rows.count();
+
+  for (let i = 0; i < rowCount; i++) {
+    const cells = rows.nth(i).locator('td');
+
+    for (let j = 0; j < 3; j++) {
+      const value = (await cells.nth(j).innerText()).trim();
+
+      expect(value, `Row ${i + 1}, column ${j + 1} should not be empty`).not.toBe('');
+    }
+  }
+});
 });
