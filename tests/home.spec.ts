@@ -127,4 +127,38 @@ test.describe("Dream Portal - Home Page", () => {
 
     expect(totalPage).toBeDefined();
   });
+  test("TC-022: Opened destination pages load the expected page content", async ({
+    page,
+    context,
+  }) => {
+    const homePage = new HomePage(page);
+
+    await homePage.open();
+
+    const pagesBeforeClick = context.pages().length;
+
+    await homePage.clickMyDreams();
+
+    await page.waitForTimeout(1000);
+
+    const openedPages = context.pages().slice(pagesBeforeClick);
+
+    const diaryPage = openedPages.find(
+      (openedPage) =>
+        openedPage.url() ===
+        "https://arjitnigam.github.io/myDreams/dreams-diary.html",
+    );
+
+    const totalPage = openedPages.find(
+      (openedPage) =>
+        openedPage.url() ===
+        "https://arjitnigam.github.io/myDreams/dreams-total.html",
+    );
+
+    expect(diaryPage).toBeDefined();
+    expect(totalPage).toBeDefined();
+
+    await expect(diaryPage!.locator("#dreamsDiary")).toBeVisible();
+    await expect(totalPage!.locator("#dreamsTotal")).toBeVisible();
+  });
 });
