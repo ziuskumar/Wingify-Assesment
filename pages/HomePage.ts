@@ -15,6 +15,7 @@ export class HomePage extends BasePage {
   }
 
   async clickMyDreams(): Promise<void> {
+    await this.dreamButton.waitFor({ state: "visible" });
     await this.dreamButton.click();
   }
 }
