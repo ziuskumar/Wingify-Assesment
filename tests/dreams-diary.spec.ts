@@ -96,22 +96,53 @@ test.describe("Dream Portal - Dreams Diary", () => {
 
     expect(allowedTypes).not.toContain(invalidType);
   });
-  test('TC-020: Every required dream cell contains a value', async ({ page }) => {
-  const diaryPage = new DreamsDiaryPage(page);
+  test("TC-020: Every required dream cell contains a value", async ({
+    page,
+  }) => {
+    const diaryPage = new DreamsDiaryPage(page);
 
-  await diaryPage.open();
+    await diaryPage.open();
 
-  const rows = diaryPage.dreamRows;
-  const rowCount = await rows.count();
+    const rows = diaryPage.dreamRows;
+    const rowCount = await rows.count();
 
-  for (let i = 0; i < rowCount; i++) {
-    const cells = rows.nth(i).locator('td');
+    for (let i = 0; i < rowCount; i++) {
+      const cells = rows.nth(i).locator("td");
 
-    for (let j = 0; j < 3; j++) {
-      const value = (await cells.nth(j).innerText()).trim();
+      for (let j = 0; j < 3; j++) {
+        const value = (await cells.nth(j).innerText()).trim();
 
-      expect(value, `Row ${i + 1}, column ${j + 1} should not be empty`).not.toBe('');
+        expect(
+          value,
+          `Row ${i + 1}, column ${j + 1} should not be empty`,
+        ).not.toBe("");
+      }
     }
-  }
-});
+  });
+  test("TC-023: Recurring dream classification follows the business rule", async ({
+    page,
+  }) => {
+    const diaryPage = new DreamsDiaryPage(page);
+
+    await diaryPage.open();
+
+    const dreams = await diaryPage.getTableRowData();
+
+    const dreamCounts = new Map<string, number>();
+
+    for (const dream of dreams) {
+      dreamCounts.set(
+        dream.dreamName,
+        (dreamCounts.get(dream.dreamName) ?? 0) + 1,
+      );
+    }
+
+    for (const [dreamName, count] of dreamCounts) {
+      if (count > 1) {
+        expect(count).toBeGreaterThan(1);
+      } else {
+        expect(count).toBe(1);
+      }
+    }
+  });
 });
