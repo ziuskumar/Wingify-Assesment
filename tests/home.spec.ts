@@ -20,6 +20,17 @@ test.describe("Dream Portal - Home Page", () => {
     await expect(homePage.loadingAnimation).toBeVisible();
     await expect(homePage.loadingAnimation).toBeHidden({ timeout: 5000 });
   });
+  test("TC-021: Loading animation remains visible before the expected transition", async ({
+    page,
+  }) => {
+    const homePage = new HomePage(page);
+
+    await homePage.open();
+
+    await page.waitForTimeout(2500);
+
+    await expect(homePage.loadingAnimation).toBeVisible();
+  });
 
   test("TC-003: Main content becomes visible after loading", async ({
     page,
